@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 //? css
 import './index.css';
+// ? initialize object extensions
+import './extensions';
 
 import App from './App';
 // import reportWebVitals from './reportWebVitals';
