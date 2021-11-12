@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 import { api_url } from './helpers/api_url'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import Signup from './pages/Signup'
 import { LoginAction } from './redux/actions'
 
 const App = (props) => {
@@ -33,6 +34,7 @@ const App = (props) => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </div>
   )

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { api_url } from '../helpers/api_url';
 
+
 const Login = (props) => {
     const [dataLogin, setdataLogin] = useState({
         usernamemail: "",
@@ -33,7 +34,6 @@ const Login = (props) => {
     const rememberMe = (e) => {
         if (e.target.checked) {
             localStorage.setItem("remember", true)
-            console.log(localStorage.getItem("remember"));
         } else {
             localStorage.setItem("remember", false)
         }
@@ -50,8 +50,13 @@ const Login = (props) => {
             password: password
         })
         try {
+            if (!res.data.length) {
+                alert("akun tidak ditemukan")
+                return
+            }
             localStorage.setItem("token", res.headers["access-token"])
             props.LoginAction(res.data[0])
+            alert("berhasil login")
         } catch (error) {
             alert(error)
         }
@@ -66,19 +71,19 @@ const Login = (props) => {
         <div>
             <div className="login-box">
                 <h1>Login</h1>
-                <div>
-                    <input type="text" placeholder="username atau email" name="usernamemail" onChange={inputHandler} />
+                <div className="login-input-box">
+                    <input type="text" placeholder="username atau email" name="usernamemail" className="login-input-style" onChange={inputHandler} />
                 </div>
-                <div>
-                    <input type={hidepass} placeholder="password" name="password" onChange={inputHandler} />
+                <div className="login-input-box">
+                    <input type={hidepass} placeholder="password" name="password" className="login-input-style" onChange={inputHandler} />
                 </div>
-                <div>
+                <div className="login-input-box">
                     <input type="checkbox" onChange={lihatPassword} /> Lihat Password
                 </div>
-                <div>
-                    <button onClick={onLogin}>login</button>
+                <div className="login-input-box">
+                    <button className="login-button-style" onClick={onLogin}>login</button>
                 </div>
-                <div>
+                <div className="login-input-box">
                     <input type="checkbox" onChange={rememberMe} /> Remember me
                 </div>
                 <p>Belum punya akun? <Link to="/signup">Daftar disini</Link>!</p>

@@ -1,9 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-
-.login-box {
+.signup-box {
     margin: auto;
     padding: 2%;
     display: flex;
@@ -16,24 +11,33 @@
     -moz-box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.5);
 }
 
-.login-input-box {
+.signup-input-box {
     margin-bottom: 5%;
 }
 
-.login-input-style {
+.signup-input-style {
     padding: 2%;
     border: none;
     border-radius: 5px;
+    background-color: rgb(232,240,254);
 }
 
-.login-input-style:focus {
+.signup-input-style:focus {
     outline: none;
 }
 
-.login-button-style {
+.signup-button-style {
     padding: 3% 5%;
     border: none;
     border-radius: 5px;
     background-color: blue;
+    color: white;
+}
+
+.signup-button-style-disabled {
+    padding: 3% 5%;
+    border: none;
+    border-radius: 5px;
+    background-color: lightblue;
     color: white;
 }

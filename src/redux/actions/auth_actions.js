@@ -10,9 +10,3 @@ export const LogoutAction = () => {
         type: "logout"
     }
 }
-
-export const RememberAction = () => {
-    return {
-        type: "remember"
-    }
-}
