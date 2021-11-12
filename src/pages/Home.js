@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 //? css
 // import './App.css';
 import 'react-vertical-timeline-component/style.min.css';
@@ -9,20 +9,52 @@ import {
   VerticalTimelineElement,
 } from 'react-vertical-timeline-component';
 //? redux
-import { getActivities } from '../redux/actions/activityActions';
+import { getActivities, addActivity } from '../redux/actions/activityActions';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Home() {
   const activities = useSelector((state) => state.activityReducer.activities);
   const dispatch = useDispatch();
 
-  console.log(activities);
   useEffect(() => {
     dispatch(getActivities());
   }, [dispatch]);
 
+  //!
+  const [file, setfile] = useState(null);
+  const onFileChange = (e) =>
+    e.target.files[0] ? setfile(e.target.files[0]) : setfile(null);
+  const onAddClick = () => {
+    dispatch(
+      addActivity(file, {
+        activity_name: 'frontend',
+        description: 'blablabla',
+        act_start: '2011-2-4 15:00:00',
+        act_finish: '2011-2-4 15:10:00',
+      })
+    );
+  };
+
   return (
     <>
+      <div>
+        <h1>Add Activity</h1>
+
+        <button onClick={onAddClick}>Add</button>
+        <input type='file' placeholder='file upload' onChange={onFileChange} />
+
+        {file ? <img src={URL.createObjectURL(file)} alt={file}></img> : null}
+      </div>
+
+      {activities.map((el, i) => {
+        return (
+          <h1 key={el.id}>
+            {el.activity_name}
+            {`: (${el.act_start}) to (${el.act_finish})`}
+          </h1>
+        );
+      })}
+
       <VerticalTimeline>
         <VerticalTimelineElement
           className='vertical-timeline-element--work'

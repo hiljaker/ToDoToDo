@@ -1,3 +1,6 @@
 export const actionTypes = {
-  SET_ACTIVITIES: 'SET_ACTIVITIES',
+  activity: {
+    SET_ACTIVITIES: 0,
+    PUSH_ACTIVITY: 1,
+  },
 };

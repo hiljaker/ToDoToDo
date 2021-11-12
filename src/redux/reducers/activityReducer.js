@@ -6,8 +6,13 @@ const initialState = {
 
 export const activityReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_ACTIVITIES:
+    case actionTypes.activity.SET_ACTIVITIES:
       return { ...state, activities: action.payload };
+    case actionTypes.activity.PUSH_ACTIVITY:
+      return {
+        ...state,
+        activities: [...state.activities, action.payload],
+      };
     default:
       return state;
   }
