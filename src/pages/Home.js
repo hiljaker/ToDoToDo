@@ -6,26 +6,33 @@ import React, { useState } from 'react';
 //? redux
 import { setActivities } from '../redux/actions/activityActions';
 import { useDispatch, useSelector } from 'react-redux';
+//? hooks
+import { useDebounce } from '../hooks';
 
 export default function Home() {
-  const [state, setstate] = useState(null);
+  const [state, setstate] = useState(0);
 
   const dispatch = useDispatch();
   // const activities = useSelector((state) => state.activityReducer.activities);
 
   // console.log(activities);
 
-  const onTestClick = (() => {
-    dispatch(
-      setActivities([
-        { activity_name: 'activity1' },
-        { activity_name: 'activity2' },
-        { activity_name: 'activity3' },
-      ])
-    );
-    console.log('debounce test');
-    // setstate(true); // * affects
-  }).debouncify(1000, true);
+  const onTestClick = useDebounce(
+    (e) => {
+      console.log(e.target);
+      // dispatch(
+      //   setActivities([
+      //     { activity_name: 'activity1' },
+      //     { activity_name: 'activity2' },
+      //     { activity_name: 'activity3' },
+      //   ])
+      // );
+      console.log('debounce test');
+      setstate(state + 1); // * affects
+    },
+    1000,
+    true
+  );
 
   return (
     <>
