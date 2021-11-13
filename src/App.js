@@ -3,10 +3,13 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { api_url } from './helpers/api_url'
-import Home from './pages/Home'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
+// import Home from './pages/Home'
+// import Login from './pages/Login'
+// import Signup from './pages/Signup'
 import { LoginAction } from './redux/actions'
+import Navbar from './components/Navbar';
+//? pages
+import { Home, NotFound, Login, Signup } from './pages';
 
 const App = (props) => {
 
@@ -31,8 +34,10 @@ const App = (props) => {
 
   return (
     <div>
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path={'/'} element={<Home />} />
+        <Route path={'*'} element={<NotFound />} />
         {props.auth.doneSignup ? (
           <Route path="/signup" element={<Navigate to="/login" />}
           />

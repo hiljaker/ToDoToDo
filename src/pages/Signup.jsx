@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { api_url } from '../helpers/api_url'
-import { SignupAction } from '../redux/actions'
 import "./styles/Signup.css"
 
 const Signup = (props) => {

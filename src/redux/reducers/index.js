@@ -1,6 +1,12 @@
-import { combineReducers } from "redux";
+//? redux
+import { combineReducers } from 'redux';
+//? reducers
+import { activityReducer } from './activityReducer';
 import { authReducers } from "./auth_reducers";
 
-export default combineReducers({
-    auth: authReducers
-})
+const reducers = combineReducers({
+  activityReducer,
+  auth: authReducers
+});
+
+export default reducers;

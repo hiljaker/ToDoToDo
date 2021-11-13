@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import "./styles/Login.css"
 import { LoginAction } from "../redux/actions";
 import { connect } from 'react-redux';
