@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { api_url } from './helpers/api_url'
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -33,8 +33,18 @@ const App = (props) => {
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        {props.auth.doneSignup ? (
+          <Route path="/signup" element={<Navigate to="/login" />}
+          />
+        ) : (
+          <Route path="/signup" element={<Signup />} />
+        )}
+        {props.auth.isLogin ? (
+          <Route path="/login" element={<Navigate to="/" />}
+          />
+        ) : (
+          <Route path="/login" element={<Login />} />
+        )}
       </Routes>
     </div>
   )

@@ -2,10 +2,8 @@ const initial_state = {
     id: 0,
     username: "",
     email: "",
-    password: "",
     user_role: 0,
     isLogin: false,
-    remember: false
 }
 
 export const authReducers = (state = initial_state, action) => {

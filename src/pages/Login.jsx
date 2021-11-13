@@ -13,9 +13,6 @@ const Login = (props) => {
         password: ""
     })
 
-    useEffect(() => {
-        setdataLogin(dataLogin)
-    }, [dataLogin])
 
     const inputHandler = (e) => {
         setdataLogin({ ...dataLogin, [e.target.name]: e.target.value })
@@ -31,11 +28,13 @@ const Login = (props) => {
         }
     }
 
-    const rememberMe = (e) => {
+    const [remember, setRemember] = useState(false)
+
+    const rememberMeHandler = (e) => {
         if (e.target.checked) {
-            localStorage.setItem("remember", true)
+            setRemember(true)
         } else {
-            localStorage.setItem("remember", false)
+            setRemember(false)
         }
     }
 
@@ -62,6 +61,16 @@ const Login = (props) => {
         }
     }
 
+    useEffect(() => {
+        setdataLogin(dataLogin)
+        setRemember(remember)
+        if (remember) {
+            localStorage.setItem("remember", true)
+        } else {
+            localStorage.setItem("remember", false)
+        }
+    }, [dataLogin, remember])
+
     // Redirect not working
     // if (props.auth.isLogin) {
     //     return <Redirect to="/" />
@@ -84,7 +93,7 @@ const Login = (props) => {
                     <button className="login-button-style" onClick={onLogin}>login</button>
                 </div>
                 <div className="login-input-box">
-                    <input type="checkbox" onChange={rememberMe} /> Remember me
+                    <input type="checkbox" onChange={rememberMeHandler} /> Remember me
                 </div>
                 <p>Belum punya akun? <Link to="/signup">Daftar disini</Link>!</p>
                 <p>Kembali ke <Link to="/">Home</Link></p>
