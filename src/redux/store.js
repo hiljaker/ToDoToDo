@@ -18,6 +18,4 @@ const store = createStore(
   // )
 );
 
-// Mas reece, line 11-18 error kalo ga dikomen
-
 export default store;
