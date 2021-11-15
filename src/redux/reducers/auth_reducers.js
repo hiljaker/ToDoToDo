@@ -3,7 +3,6 @@ const initial_state = {
     username: "",
     email: "",
     user_role: 0,
-    is_verified: 0,
     isLogin: false,
 }
 
