@@ -10,12 +10,12 @@ const store = createStore(
   reducers,
   {}, // * initial state
   // * compose accepts the functions to compose and returns the final function obtained by composing the given functions from right to left.
-  compose(
-    // applyMiddleware(thunk.withExtraArgument(api)),
-    applyMiddleware(thunk.withExtraArgument('extra argument')),
+  applyMiddleware(thunk.withExtraArgument('extra argument')),
+  // compose(
+  //   // applyMiddleware(thunk.withExtraArgument(api)),
 
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+  //   // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  // )
 );
 
 // Mas reece, line 11-18 error kalo ga dikomen

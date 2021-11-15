@@ -81,7 +81,7 @@ const Signup = (props) => {
                 <div className="signup-input-box">
                     <input type={hidePass} placeholder="password" name="password" className="signup-input-style" onChange={inputHandler} />
                 </div>
-                <p hidden={passAlert}>Password harus berisi setidaknya 1 huruf kecil, 1 huruf besar, dan 1 angka</p>
+                <p hidden={passAlert} style={{ fontSize: "85%", color: "red" }}>Password harus berisi setidaknya 1 huruf kecil, 1 huruf besar, dan 1 angka</p>
                 <div className="signup-input-box">
                     <input type="checkbox" onChange={lihatPassword} /> Lihat Password
                 </div>

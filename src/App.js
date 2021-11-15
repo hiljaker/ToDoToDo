@@ -9,7 +9,7 @@ import { api_url } from './helpers/api_url'
 import { LoginAction } from './redux/actions'
 import Navbar from './components/Navbar';
 //? pages
-import { Home, NotFound, Login, Signup } from './pages';
+import { Home, NotFound, Login, Signup, VerifyAlert } from './pages';
 
 const App = (props) => {
 
@@ -38,12 +38,7 @@ const App = (props) => {
       <Routes>
         <Route path={'/'} element={<Home />} />
         <Route path={'*'} element={<NotFound />} />
-        {props.auth.doneSignup ? (
-          <Route path="/signup" element={<Navigate to="/login" />}
-          />
-        ) : (
-          <Route path="/signup" element={<Signup />} />
-        )}
+        <Route path="/signup" element={<Signup />} />
         {props.auth.isLogin ? (
           <Route path="/login" element={<Navigate to="/" />}
           />
