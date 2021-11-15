@@ -43,5 +43,26 @@ export const getActivities = () => {
   };
 };
 //? UPDATE
+export const editActivity = (image, dataField) => {
+  return async (dispatch, getState, api) => {
+    // console.log(image, dataField);
+
+    const formData = new FormData();
+    image && formData.append('image', image);
+    dataField && formData.append('data', JSON.stringify(dataField));
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    // const { data } = await api.patch('/activities', formData, config);
+    await api.patch('/activities', formData, config);
+
+    // console.log(data);
+  };
+};
 
 //? DELETE

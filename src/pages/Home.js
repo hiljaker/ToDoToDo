@@ -1,18 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 //? css
 // import './App.css';
 import 'react-vertical-timeline-component/style.min.css';
 //? components
 // import Navbar from './components/Navbar';
+import ContentEditable from 'react-contenteditable';
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from 'react-vertical-timeline-component';
 //? redux
-import { getActivities, addActivity } from '../redux/actions/activityActions';
+import {
+  getActivities,
+  addActivity,
+  editActivity,
+} from '../redux/actions/activityActions';
 import { useDispatch, useSelector } from 'react-redux';
 
+const parseDate = (datetime) => datetime && datetime.split(' ')[0];
+const parseTime = (datetime) => datetime && datetime.split(' ')[1];
+
 export default function Home() {
+  const baseURL = 'http://localhost:3001';
   const activities = useSelector((state) => state.activityReducer.activities);
   const dispatch = useDispatch();
 
@@ -22,8 +31,16 @@ export default function Home() {
 
   //!
   const [file, setfile] = useState(null);
-  const onFileChange = (e) =>
-    e.target.files[0] ? setfile(e.target.files[0]) : setfile(null);
+  const onFileChange = (e) => {
+    if (e.target.files[0]) {
+      // if (imageInput.current.e) {
+      imageInput.current.e.target.src = URL.createObjectURL(e.target.files[0]);
+      // }
+      setfile(e.target.files[0]);
+    } else {
+      setfile(null);
+    }
+  };
   const onAddClick = () => {
     dispatch(
       addActivity(file, {
@@ -35,124 +52,138 @@ export default function Home() {
     );
   };
 
+  const changes = useRef({});
+  const beforeChange = useRef(null);
+  const handleFocus = (e) => {
+    beforeChange.current = e.target.childNodes[0].innerText;
+  };
+  const handleKeyDown = (e, id) => {
+    if (e.keyCode === 13 || e.keyCode === 9) {
+      if (changes.current.id !== id) {
+        changes.current = {};
+      }
+      // * enter or tab
+      e.target.edit = true; // * custom prop
+      changes.current[e.target.className] = e.target.childNodes[0].innerText;
+      changes.current.id = id;
+      console.log(changes.current);
+      e.target.blur();
+      dispatch(editActivity(file, changes.current));
+    } else if (e.keyCode === 27) {
+      // * esc
+      e.target.blur();
+    }
+  };
+  const handleBlur = (e) => {
+    if (!e.target.edit) {
+      e.target.childNodes[0].innerText = beforeChange.current;
+    } else {
+      delete e.target.edit;
+    }
+  };
+
+  const imageInput = useRef(null);
+  const handleImageClick = (e) => {
+    imageInput.current.e = e;
+    imageInput.current.click();
+    // e.target.src = file && URL.createObjectURL(file);
+    // console.log(imageInput.current);
+  };
+
   return (
     <>
       <div>
         <h1>Add Activity</h1>
 
         <button onClick={onAddClick}>Add</button>
-        <input type='file' placeholder='file upload' onChange={onFileChange} />
+        <input
+          ref={imageInput}
+          type='file'
+          placeholder='file upload'
+          // onChange={onFileChange}
+        />
 
-        {file ? <img src={URL.createObjectURL(file)} alt={file}></img> : null}
+        {file ? (
+          <img
+            hidden
+            style={{ maxWidth: '80%' }}
+            src={URL.createObjectURL(file)}
+            alt={file}
+          ></img>
+        ) : null}
       </div>
 
-      {activities.map((el, i) => {
-        return (
-          <h1 key={el.id}>
-            {el.activity_name}
-            {`: (${el.act_start}) to (${el.act_finish})`}
-          </h1>
-        );
-      })}
+      <h1>{`date: ${parseDate(activities[0]?.act_start)}`}</h1>
 
+      <input
+        hidden
+        ref={imageInput}
+        type='file'
+        placeholder='file upload'
+        onChange={onFileChange}
+      />
       <VerticalTimeline>
-        <VerticalTimelineElement
-          className='vertical-timeline-element--work'
-          contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-          contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
-          date='2011 - present'
-          iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-          // icon={<WorkIcon />}
-        >
-          <h3 className='vertical-timeline-element-title'>Creative Director</h3>
-          <h4 className='vertical-timeline-element-subtitle'>Miami, FL</h4>
-          <p>
-            Creative Direction, User Experience, Visual Design, Project
-            Management, Team Leading
-          </p>
-          {/* <img src={}></img> */}
-        </VerticalTimelineElement>
-        <VerticalTimelineElement
-          className='vertical-timeline-element--work'
-          date='2010 - 2011'
-          iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-          // icon={<WorkIcon />}
-        >
-          <h3 className='vertical-timeline-element-title'>Art Director</h3>
-          <h4 className='vertical-timeline-element-subtitle'>
-            San Francisco, CA
-          </h4>
-          <p>
-            Creative Direction, User Experience, Visual Design, SEO, Online
-            Marketing
-          </p>
-        </VerticalTimelineElement>
-        <VerticalTimelineElement
-          className='vertical-timeline-element--work'
-          date='2008 - 2010'
-          iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-          // icon={<WorkIcon />}
-        >
-          <h3 className='vertical-timeline-element-title'>Web Designer</h3>
-          <h4 className='vertical-timeline-element-subtitle'>
-            Los Angeles, CA
-          </h4>
-          <p>User Experience, Visual Design</p>
-        </VerticalTimelineElement>
-        <VerticalTimelineElement
-          className='vertical-timeline-element--work'
-          date='2006 - 2008'
-          iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-          // icon={<WorkIcon />}
-        >
-          <h3 className='vertical-timeline-element-title'>Web Designer</h3>
-          <h4 className='vertical-timeline-element-subtitle'>
-            San Francisco, CA
-          </h4>
-          <p>User Experience, Visual Design</p>
-        </VerticalTimelineElement>
-        <VerticalTimelineElement
-          className='vertical-timeline-element--education'
-          date='April 2013'
-          iconStyle={{ background: 'rgb(233, 30, 99)', color: '#fff' }}
-          // icon={<SchoolIcon />}
-        >
-          <h3 className='vertical-timeline-element-title'>
-            Content Marketing for Web, Mobile and Social Media
-          </h3>
-          <h4 className='vertical-timeline-element-subtitle'>Online Course</h4>
-          <p>Strategy, Social Media</p>
-        </VerticalTimelineElement>
-        <VerticalTimelineElement
-          className='vertical-timeline-element--education'
-          date='November 2012'
-          iconStyle={{ background: 'rgb(233, 30, 99)', color: '#fff' }}
-          // icon={<SchoolIcon />}
-        >
-          <h3 className='vertical-timeline-element-title'>
-            Agile Development Scrum Master
-          </h3>
-          <h4 className='vertical-timeline-element-subtitle'>Certification</h4>
-          <p>Creative Direction, User Experience, Visual Design</p>
-        </VerticalTimelineElement>
-        <VerticalTimelineElement
-          className='vertical-timeline-element--education'
-          date='2002 - 2006'
-          iconStyle={{ background: 'rgb(233, 30, 99)', color: '#fff' }}
-          // icon={<SchoolIcon />}
-        >
-          <h3 className='vertical-timeline-element-title'>
-            Bachelor of Science in Interactive Digital Media Visual Imaging
-          </h3>
-          <h4 className='vertical-timeline-element-subtitle'>
-            Bachelor Degree
-          </h4>
-          <p>Creative Direction, Visual Design</p>
-        </VerticalTimelineElement>
-        <VerticalTimelineElement
-          iconStyle={{ background: 'rgb(16, 204, 82)', color: '#fff' }}
-          // icon={<StarIcon />}
-        />
+        {activities.map((el) => {
+          return (
+            <VerticalTimelineElement
+              key={el.id}
+              className='vertical-timeline-element--work'
+              contentStyle={{ background: 'rgb(33, 150, 243)', color: '#000' }}
+              contentArrowStyle={{
+                borderRight: '7px solid  rgb(33, 150, 243)',
+              }}
+              date={`${parseTime(el?.act_start)}-${parseTime(el?.act_finish)}`}
+              // onTimelineElementClick={(e) => console.log(e.target)}
+              // iconOnClick={(e)=>console.log(e.target)}
+              iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+              // icon={<WorkIcon />}
+            >
+              <ContentEditable
+                html={`<h3 class='vertical-timeline-element-title' >${el.activity_name}</h3>`}
+                //!
+                disabled={false}
+                onKeyDown={(e) => handleKeyDown(e, el.id)}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                tagName='article'
+                className={'activity_name'}
+              />
+              <ContentEditable
+                html={`<p>${el.description}</p>`}
+                //!
+                disabled={false}
+                onKeyDown={(e) => handleKeyDown(e, el.id)}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                tagName='article'
+                className={'description'}
+              />
+              {el.image ? (
+                <img
+                  onClick={handleImageClick}
+                  style={{
+                    maxHeight: '400px',
+                    maxWidth: '100%',
+                  }}
+                  src={baseURL + el.image}
+                  alt={el.activity_name}
+                ></img>
+              ) : null}
+              {/* {changes.current.id && (
+                <>
+                  <button
+                    onClick={() =>
+                      dispatch(editActivity(file, changes.current))
+                    }
+                  >
+                    confirm
+                  </button>
+                  <button onClick={() => (changes.current = {})}>cancel</button>
+                </>
+              )} */}
+            </VerticalTimelineElement>
+          );
+        })}
       </VerticalTimeline>
     </>
   );
