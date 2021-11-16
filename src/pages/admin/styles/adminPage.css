@@ -1,10 +1,32 @@
 .admin-container {
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .admin-avatar {
     border-radius: 50px;
-    background: #ffffff;
-    box-shadow:  20px 20px 60px #d9d9d9,
-                -20px -20px 60px #ffffff;
+    background: linear-gradient(145deg, #cacaca, #f0f0f0);
+    box-shadow:  28px 28px 56px #bebebe,
+                -28px -28px 56px #ffffff;
 }
+.adminImg-cont {
+    height: 140px;
+    width: 140px;
+}
+.admin-logo {
+    height: 140px;
+    width: 140px;
+}
+.admin-titlesize {
+    font-size: 2.5em;
+}
+.admin-nama {
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+/* .admin-menubox {
+    border-radius: 13px;
+    background: #e0e0e0;
+    box-shadow:  -15px 15px 19px #cacaca,
+                15px -15px 19px #f6f6f6;
+} */
+

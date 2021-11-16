@@ -4,26 +4,7 @@ import {Routes, Route, BrowserRouter} from "react-router-dom"
 
 
 
-// const App = () => {
-
-//   const renderAdmin = () => {
-//     return (
-//     <Routes>
-//       <Route path="/admin" element ={<AdminPage/>} />
-//     </Routes>
-//     )
-//   }
-
-
-//   return (
-//     <div >
-//       <BrowserRouter>
-//         {renderAdmin()}
-//       </BrowserRouter>
-//     </div>
-//   );
-// }
-function App() {
+const App = () => {
 
 
   return (
