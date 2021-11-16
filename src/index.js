@@ -1,18 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import reportWebVitals from './reportWebVitals';
-
-// import { Provider } from 'react-redux';
-
+//? redux
+import { Provider } from 'react-redux';
+import store from './redux/store';
+//? css
 import './index.css';
-import "bootstrap/dist/css/bootstrap.min.css"
 
 import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import "bootstrap/dist/css/bootstrap.min.css"
+// import { createStore } from 'redux';
+// import reducers from "./redux/reducers";
+// import { Provider } from 'react-redux';
+
+// const store = createStore(reducers)
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
       <App />
-  </React.StrictMode>,
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 
