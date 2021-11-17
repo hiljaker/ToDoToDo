@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import { api_url } from '../helpers/api_url'
 import "./styles/Signup.css"
 
@@ -45,7 +46,13 @@ const Signup = (props) => {
     const onSignup = () => {
         const { username, email, password } = dataSignup
         if (!username || !email || !password) {
-            alert("isi semua")
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Isi semua!',
+                timer: 1500,
+                timerProgressBar: true
+            })
             return
         }
         axios.post(`${api_url}/auth/isregistered`, {
@@ -53,7 +60,13 @@ const Signup = (props) => {
             email
         }).then((res) => {
             if (res.data.length) {
-                alert("sudah terdaftar")
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Akun sudah terdaftar!',
+                    timer: 1500,
+                    timerProgressBar: true
+                })
                 return
             }
             axios.post(`${api_url}/auth/signup`, {
