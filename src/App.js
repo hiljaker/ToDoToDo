@@ -10,6 +10,7 @@ import { LoginAction } from './redux/actions'
 import Navbar from './components/Navbar';
 //? pages
 import { Home, NotFound, Login, Signup, VerifyAlert } from './pages';
+import AdminPage from './pages/admin/adminPage'
 
 const App = (props) => {
 
@@ -45,6 +46,7 @@ const App = (props) => {
         ) : (
           <Route path="/login" element={<Login />} />
         )}
+        <Route path="/admin" element ={<AdminPage/>} />
       </Routes>
     </div>
   )
