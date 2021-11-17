@@ -5,6 +5,7 @@ import { LoginAction } from "../redux/actions";
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { api_url } from '../helpers/api_url';
+import Swal from 'sweetalert2';
 
 
 const Login = (props) => {
@@ -41,7 +42,14 @@ const Login = (props) => {
     const onLogin = async () => {
         const { usernamemail, password } = dataLogin
         if (!usernamemail || !password) {
-            alert(`isi semua dong`)
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Isi semua!',
+                timer: 1500,
+                timerProgressBar: true
+            })
+            return
         }
         let res = await axios.post(`${api_url}/auth/login`, {
             username: usernamemail,
@@ -50,7 +58,13 @@ const Login = (props) => {
         })
         try {
             if (!res.data.length) {
-                alert("akun tidak ditemukan")
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Akun tidak terdaftar!',
+                    timer: 1500,
+                    timerProgressBar: true
+                })
                 return
             }
             localStorage.setItem("token", res.headers["access-token"])
